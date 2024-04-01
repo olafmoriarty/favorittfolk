@@ -47,6 +47,9 @@ const About = () => {
 			<h2 className="mb-2 font-bold text-lg">Er det nokre cookies her?</h2>
 			<p className="mb-4">Nei.</p>
 
+			<h2 className="mb-2 font-bold text-lg">Ligger kjeldekoden til dette prosjektet på GitHub?</h2>
+			<p className="mb-4">Ja, her: <a className="text-orange-600 underline" href="https://github.com/olafmoriarty/favorittfolk" target="_blank">https://github.com/olafmoriarty/favorittfolk</a></p>
+
 		</section>
 	)
 }
