@@ -1,0 +1,45 @@
+/*
+* {
+	box-sizing: border-box;
+}
+
+#root {
+	width: 100%;
+	max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+header {
+	color: #ffffff;
+	background: #000000;
+	padding: 2rem 1rem 1rem;
+}
+
+footer {
+	margin-top: 3rem;
+	border-top: dashed 1px #808080;
+}
+
+.options {
+	display: grid;
+	height: 100vh;
+	padding: 1rem;
+	grid-template-columns: 1fr;
+	grid-template-rows: repeat(4, 1fr);
+	gap: 1rem;
+}
+
+.options button {
+	display: block;
+	overflow: hidden;
+	font-weight: normal;
+}
+
+@media screen and (min-width: 800px) {
+	.options {
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: repeat(2, 1fr);
+	}	
+}
+*/
