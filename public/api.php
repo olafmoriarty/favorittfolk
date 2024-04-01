@@ -43,7 +43,7 @@ function get_candidates() {
 
 	if ($type_of_seed < 4) {
 		// Get one "one away" candidate
-		$query = 'SELECT title, pageid FROM folk WHERE votes > 0 ORDER BY (votes - rounds) ASC, RAND() LIMIT 1';
+		$query = 'SELECT title, pageid FROM folk WHERE votes > 0 ORDER BY (rounds - votes) ASC, RAND() LIMIT 1';
 		$stmt = $conn->prepare($query);
 		$stmt->execute();
 		$result = $stmt->get_result();
