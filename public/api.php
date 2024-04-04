@@ -57,7 +57,7 @@ function get_candidates() {
 	else {
 		// Get one top 50 candidate
 		$random_number = rand(0, 49);
-		$query = 'SELECT title, pageid FROM folk WHERE rounds > 0 ORDER BY (votes / rounds) DESC LIMIT ?, 1';
+		$query = 'SELECT title, pageid FROM folk WHERE rounds > 0 AND rounds <= (SELECT rounds FROM folk ORDER BY rounds DESC LIMIT 21, 1) ORDER BY (votes / rounds) DESC LIMIT ?, 1';
 		$stmt = $conn->prepare($query);
 		$stmt->bind_param('i', $random_number);
 		$stmt->execute();
