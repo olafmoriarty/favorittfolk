@@ -22,7 +22,7 @@ const Top100 = () => {
 				<td className="p-2 text-right font-bold align-top">#{index + 1}:</td>
 				<td className="p-2 text-left align-top"><ListMember candidate={el} index={index} /></td>
 				<td className="p-2 text-right align-top">{(100 * el.votes / el.rounds).toFixed(2).replace('.', ',')}%</td>
-			</tr>)}</tbody></table><p className="my-4 italic">(Personar som berre har deltatt i ein runde visast ikkje på topplista.)</p></> : null}
+			</tr>)}</tbody></table><p className="my-4"><a href="https://bsky.app/profile/favorittfolk.no" className="underline text-orange-800" target="_blank">Følg Favorittfolk.no på Bluesky!</a></p></> : null}
 		</section>
 		
 	)

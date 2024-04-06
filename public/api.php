@@ -129,6 +129,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 		$row = $result->fetch_assoc();
 		$c['votes'] = $row['votecount'];
 	}
+
+	elseif (isset($_GET['q'])) {
+		$words = explode(' ', $_GET['q']);
+
+		$wordcount = count($words);
+
+		$where = [];
+		$sssss = '';
+		$real_words = [];
+
+		for ($i = 0; $i < $wordcount; $i++) {
+			if ($words[$i]) {
+				$where[] = 'title LIKE ?';
+				$sssss .= 's';
+				$real_words[] = '%' . $words[$i] . '%';
+			}
+		}
+
+		if (count($real_words)) {
+			$query = 'SELECT pageid, title FROM folk WHERE ' . implode(' AND ', $where) . ' ORDER BY votes / rounds DESC LIMIT 10';
+			$stmt = $conn->prepare($query);
+			$stmt->bind_param($sssss, ...$real_words);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$stmt->close();
+
+			while ($row = $result->fetch_assoc()) {
+				$c[] = $row;
+			}
+		}
+	}
+
+	elseif (isset($_GET['id']) && is_numeric($_GET['id'])) {
+		$query = 'SELECT votes, rounds FROM folk WHERE pageid = ? LIMIT 1';
+		$stmt = $conn->prepare($query);
+		$stmt->bind_param('i', $_GET['id']);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+
+		if ($result->num_rows) {
+			$row = $result->fetch_assoc();
+			$c['votes'] = $row['votes'];
+			$c['rounds'] = $row['rounds'];
+
+			// Place
+			$query = 'SELECT COUNT(pageid) AS higherThan FROM folk WHERE (votes / rounds) > (? / ?) OR ((votes / rounds) = (? / ?) AND votes > ?)';
+			$stmt = $conn->prepare($query);
+			$stmt->bind_param('iiiii', $c['votes'], $c['rounds'], $c['votes'], $c['rounds'], $c['votes']);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$stmt->close();
+			$row = $result->fetch_assoc();
+			$c['place'] = $row['higherThan'] + 1;
+
+			// SharedWith
+			$query = 'SELECT COUNT(pageid) AS sharedWith FROM folk WHERE votes = ? AND rounds = ?';
+			$stmt = $conn->prepare($query);
+			$stmt->bind_param('ii', $c['votes'], $c['rounds']);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$stmt->close();
+			$row = $result->fetch_assoc();
+			$c['sharedWith'] = $row['sharedWith'] - 1;
+		}
+	}
+
 	else {
 		$c = get_candidates();
 	}

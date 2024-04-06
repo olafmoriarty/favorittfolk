@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
-const Header = (props : {setMode : ( mode : "list"|"vote"|"about" ) => void}) => {
+const Header = (props : {setMode : ( mode : "list"|"vote"|"about"|"search" ) => void}) => {
 
 	const [showMenu, setShowMenu] = useState(false);
 
@@ -22,6 +22,10 @@ const Header = (props : {setMode : ( mode : "list"|"vote"|"about" ) => void}) =>
 				props.setMode('list');
 				setShowMenu(false);
 			}}>Toppliste</button>
+			<button className="block underline text-left" onClick={() => {
+				props.setMode('search');
+				setShowMenu(false);
+			}}>Søk</button>
 			<button className="block underline text-left" onClick={() => {
 				props.setMode('about');
 				setShowMenu(false);
