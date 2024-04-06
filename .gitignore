@@ -26,3 +26,4 @@ dist-ssr
 # PHP secrets
 public/apicopy.php
 public/secrets.php
+bskybot/secrets.php
