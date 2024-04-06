@@ -185,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 			$c['place'] = $row['higherThan'] + 1;
 
 			// SharedWith
-			$query = 'SELECT COUNT(pageid) AS sharedWith FROM folk WHERE votes = ? AND rounds = ?';
+			$query = 'SELECT COUNT(pageid) AS sharedWith FROM folk WHERE votes = ? AND (rounds = ? OR votes = 0)';
 			$stmt = $conn->prepare($query);
 			$stmt->bind_param('ii', $c['votes'], $c['rounds']);
 			$stmt->execute();

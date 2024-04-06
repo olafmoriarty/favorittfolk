@@ -32,7 +32,7 @@ const Search = () => {
 	const getStats = async ( pageID : number ) => {
 		setStats(undefined);
 
-		const res = await fetch(`https://favorittfolk.no/apicopy.php?id=${pageID}`);
+		const res = await fetch(`https://favorittfolk.no/api.php?id=${pageID}`);
 		const json = await res.json();
 
 		setStats(json);
@@ -59,7 +59,8 @@ const Search = () => {
 						<p>{title} ligger for augeblikket på <strong>{stats.place}.</strong> plass</p>
 						{stats.sharedWith ? <p className="italic">(saman med {stats.sharedWith} andre personar med same poengsum)</p> : null}
 					</>
-				: 'Laster informasjon ...'}
+				: <p>Laster informasjon ...</p>}
+				<p className="mt-4"><a className="underline text-orange-600" href={`https://no.wikipedia.org/wiki/${encodeURIComponent(title.replace(' ', '_'))}`} target="_blank">Vis Wikipedia-side</a></p>
 			</section>
 			: null}
 		</section>
