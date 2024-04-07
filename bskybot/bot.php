@@ -80,7 +80,7 @@ function get_wikitext( $id ) {
 	$wikitext = preg_replace('/^\:.*$/m', '', $wikitext);
 	$wikitext = preg_replace('/&ndash;/', '–', $wikitext);
 	$wikitext = preg_replace('/&nbsp;/', ' ', $wikitext);
-	$wikitext = preg_replace('/(.)\n(?!\n)/', '$1 ', $wikitext);
+	$wikitext = preg_replace('/(.)\n(?!\n|=)/', '$1 ', $wikitext);
 	$wikitext = str_replace('__NOTOC__', '', $wikitext);
 
 	// Get first paragraph
