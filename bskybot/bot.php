@@ -80,6 +80,8 @@ function get_wikitext( $id ) {
 	$wikitext = preg_replace('/^\:.*$/m', '', $wikitext);
 	$wikitext = preg_replace('/&ndash;/', '–', $wikitext);
 	$wikitext = preg_replace('/&nbsp;/', ' ', $wikitext);
+	$wikitext = preg_replace('/(.)\n(?!\n)/', '$1 ', $wikitext);
+	$wikitext = str_replace('__NOTOC__', '', $wikitext);
 
 	// Get first paragraph
 	$wikitext = trim($wikitext);
@@ -173,6 +175,8 @@ function run_bot() {
 			'langs' => ["nb"],
 		];
 
+		$post_link = 'https://no.wikipedia.org/wiki/' . urlencode( str_replace(' ', '_', $title) );
+
 		// In first post, add a link to the Wikipedia article
 		if ($i === 0) {
 			$record['facets'] = [
@@ -184,7 +188,7 @@ function run_bot() {
 					'features' => [
 						[
 							'$type' => 'app.bsky.richtext.facet#link',
-							'uri' => 'https://no.wikipedia.org/wiki/' . urlencode( str_replace(' ', '_', $title) ),
+							'uri' => $post_link,
 						]
 					]
 				],
@@ -199,6 +203,18 @@ function run_bot() {
 			];
 		}
 
+		// In last post, add link card
+		if ($i === $texts_length - 1) {
+			$record['embed'] = [
+				'$type' => 'app.bsky.embed.external',
+				'external' => [
+					'uri' => $post_link,
+					'title' => $title . ' – Wikipedia',
+					'description' => '',
+				],
+			];
+		}
+
 		// Post to Bluesky
 		$result = fetch( 'https://bsky.social/xrpc/com.atproto.repo.createRecord', [
 			'body' => [
@@ -208,6 +224,7 @@ function run_bot() {
 			],
 			'token' => $session['accessJwt'],
 		] );
+
 
 		// Set root and parent for the next posts
 		if ($i === 0) {
