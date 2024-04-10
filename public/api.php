@@ -112,7 +112,12 @@ function get_candidates() {
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 	// Returner toppliste
 	if (isset($_GET['mode']) && $_GET['mode'] === 'list') {
-		$query = 'SELECT title, pageid, votes, rounds FROM folk WHERE rounds > 1 ORDER BY (votes / rounds) DESC, rounds, title LIMIT 100';
+		$query = 'SELECT title, pageid, votes, rounds FROM folk WHERE ';
+		if (isset($_GET['ids']) && preg_match('/^(?:\d+,)*\d+$/', $_GET['ids'])) {
+			$query .= 'pageid IN (' . $_GET['ids'] . ') AND ';
+		}
+		$query .= 'rounds > 1';
+		$query .= ' ORDER BY (votes / rounds) DESC, rounds DESC, title LIMIT 100';
 		$stmt = $conn->prepare($query);
 		$stmt->execute();
 		$result = $stmt->get_result();

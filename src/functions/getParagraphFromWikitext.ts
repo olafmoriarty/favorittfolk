@@ -15,7 +15,7 @@ const getParagraphFromWikitext = (oldText : string) => {
 	text = text.replace(/&ndash;/g, '–');
 	text = text.replace(/&nbsp;/g, ' ');
 	text = text.replace(/(.)\n(?!\n|=)/g, '$1 ');
-	text = text.replace(/__NOTOC__/g, '');
+	text = text.replace(/__NOTOC__/gi, '');
 	text = text.trim();
 	text = text.split("\n")[0];
 	return text;
